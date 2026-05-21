@@ -1,0 +1,2 @@
+This is file handling
+Practice read, write ans appendThis is append
