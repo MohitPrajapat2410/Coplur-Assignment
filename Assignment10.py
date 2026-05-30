@@ -1,106 +1,28 @@
+# 1) Replace Nan with 0 and Interchange 3 rows and 3 columns of 2D array [[6, -8, 73, -110], [np.nan, -8, 0, 94]] 2) Move axes of 3D array to new positions 3) Replace NaN values with average of columns 4) Replace negative value with zero in numpy array using replace
+
 import numpy as np
-from statistics import mode
+# 1) Replace NaN with 0 and Interchange 3 rows and 3 columns of 2D array
+arr = np.array([[6, -8, 73, -110], [np.nan, -8, 0, 94]])
+arr = np.nan_to_num(arr, nan=0)
+arr = arr.T
+print(arr)
 
-# 1. Combining a 1D and a 2D NumPy Array
-arr1d = np.array([1, 2, 3])
 
-arr2d = np.array([
-    [4, 5, 6],
-    [7, 8, 9]
-])
+# 2) Move axes of 3D array to new positions
+arr_3d = np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
+arr_3d = np.transpose(arr_3d, (1, 0, 2))
+print(arr_3d)
 
-combined = np.vstack((arr1d, arr2d))
 
-print("Combined Array:")
-print(combined)
+# 3) Replace NaN values with average of columns
+arr_with_nan = np.array([[1, 2, np.nan], [4, np.nan, 6], [7, 8, 9]])
+col_mean = np.nanmean(arr_with_nan, axis=0)
+inds = np.where(np.isnan(arr_with_nan))
+arr_with_nan[inds] = np.take(col_mean, inds[1])
+print(arr_with_nan)
 
-# 2. Flatten a 2D array into a 1D array
-flat = arr2d.flatten()
 
-print("\nFlattened Array:")
-print(flat)
-
-# 3. Reverse a NumPy Array
-arr = np.array([10, 20, 30, 40, 50])
-
-print("\nReversed Array:")
-print(arr[::-1])
-
-# 4. Array Operations
-array = np.array([
-    [10, 20, 30],
-    [40, 50, 60]
-])
-
-print("\nMaximum Value:", np.max(array))
-print("Minimum Value:", np.min(array))
-
-rows, cols = array.shape
-print("Rows:", rows)
-print("Columns:", cols)
-
-print("\nWhole Array:")
-print(array)
-
-print("Specific Element [1,2]:", array[1, 2])
-
-# Sum using for loop
-total = 0
-for row in array:
-    for element in row:
-        total += element
-
-print("Sum using for loop:", total)
-
-# Arithmetic Operations
-a = np.array([10, 20, 30])
-b = np.array([2, 4, 5])
-
-print("\nAddition:", a + b)
-print("Subtraction:", a - b)
-print("Multiplication:", a * b)
-print("Division:", a / b)
-
-# 5. Iterate a 3D Array
-arr3d = np.array([
-    [
-        [1, 2],
-        [3, 4]
-    ],
-    [
-        [5, 6],
-        [7, 8]
-    ]
-])
-
-print("\n3D Array Iteration using Nested Loops:")
-for x in arr3d:
-    for y in x:
-        for z in y:
-            print(z, end=" ")
-
-print("\n\n3D Array Iteration using nditer:")
-for i in np.nditer(arr3d):
-    print(i, end=" ")
-
-# 6. Average, Mean, Median, Mode of Two 2D Arrays
-arrA = np.array([
-    [1, 2, 3],
-    [4, 5, 6]
-])
-
-arrB = np.array([
-    [6, 5, 4],
-    [3, 2, 1]
-])
-
-avg_array = (arrA + arrB) / 2
-
-print("\n\nAverage Array:")
-print(avg_array)
-
-combined_elements = np.concatenate((arrA.flatten(), arrB.flatten()))
-
-print("\nMean:", np.mean(combined_elements))
-print("Median:", np.median(combined_elements))
-print("Mode:", mode(combined_elements))
+# 4) Replace negative value with zero in numpy array using replace
+arr_with_negatives = np.array([[1, -2, 3], [-4, 5, -6], [7, -8, 9]])
+arr_with_negatives[arr_with_negatives < 0] = 0
+print(arr_with_negatives)
